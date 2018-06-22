@@ -24,7 +24,7 @@ zuul:
       serviceId: auth-server
     order:
       path: /order/**
-      sensitiveHeaders:
+      sensitiveHeaders: 
       serviceId: order-service
   add-proxy-headers: true
 
@@ -34,6 +34,7 @@ security:
       access-token-uri: http://localhost:8080/uaa/oauth/token
       user-authorization-uri: http://localhost:8080/uaa/oauth/authorize
       client-id: webapp
+      client-secret: secret
     resource:
       user-info-uri: http://localhost:8080/uaa/user
       prefer-token-info: false

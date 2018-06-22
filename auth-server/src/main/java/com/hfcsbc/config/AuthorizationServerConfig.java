@@ -21,6 +21,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.code.JdbcAuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
@@ -41,8 +42,7 @@ import java.security.KeyPair;
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 	@Autowired
 	private AuthenticationManager authenticationManager;
-	@Autowired
-	private TokenStore tokenStore;
+
 //	@Autowired
 //	private RedisConnectionFactory connectionFactory;
     @Resource(name = "userDetailsService")
@@ -53,7 +53,12 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 //	public RedisTokenStore tokenStore() {
 //		return new RedisTokenStore(connectionFactory);
 //	}
-//	
+
+    @Bean
+    public TokenStore tokenStore() {
+        return new InMemoryTokenStore();
+    }
+    
 //	@Bean
 //	public DomainUserDetailsService domainUserDetailsService() {
 //		return new DomainUserDetailsService();

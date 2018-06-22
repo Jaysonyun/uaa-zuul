@@ -2,7 +2,9 @@ package com.hfcsbc.security;
 
 import com.hfcsbc.domain.SysUser;
 import com.hfcsbc.repository.SysUserRepository;
+
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -21,7 +23,7 @@ import java.util.stream.Collectors;
 /**
  * Created by wangyunfei on 2017/6/9.
  */
-//@Service("userDetailsService")
+@Service("userDetailsService")
 @Slf4j
 public class DomainUserDetailsService implements UserDetailsService {
 
@@ -30,6 +32,7 @@ public class DomainUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    	System.out.println("============================loadUserByUsername  "+username);
         String lowcaseUsername = username.toLowerCase();
         Optional<SysUser> realUser = sysUserRepository.findOneWithRolesByUsername(lowcaseUsername);
 
@@ -37,6 +40,7 @@ public class DomainUserDetailsService implements UserDetailsService {
 
         return realUser.map(user -> {
             Set<GrantedAuthority> grantedAuthorities = user.getAuthorities();
+            System.out.println("============================map user  "+user.getUsername());
             return new User(user.getUsername(),user.getPassword(),grantedAuthorities);
         }).orElseThrow(() -> new UsernameNotFoundException("用户" + lowcaseUsername + "不存在!"));
     }

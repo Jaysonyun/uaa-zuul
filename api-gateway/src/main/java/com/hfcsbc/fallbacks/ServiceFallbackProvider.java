@@ -1,6 +1,6 @@
 package com.hfcsbc.fallbacks;
 
-import org.springframework.cloud.netflix.zuul.filters.route.ZuulFallbackProvider;
+import org.springframework.cloud.netflix.zuul.filters.route.FallbackProvider;;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -16,14 +16,15 @@ import java.io.InputStream;
  */
 
 @Component
-public class ServiceFallbackProvider implements ZuulFallbackProvider {
+public class ServiceFallbackProvider implements FallbackProvider {
     @Override
     public String getRoute() {
         return "*";
     }
 
-    @Override
-    public ClientHttpResponse fallbackResponse() {
+	@Override
+	public ClientHttpResponse fallbackResponse(String route, Throwable cause) {
+
         return new ClientHttpResponse() {
             @Override
             public HttpStatus getStatusCode() throws IOException {
@@ -57,6 +58,7 @@ public class ServiceFallbackProvider implements ZuulFallbackProvider {
                 return headers;
             }
         };
-    }
+    
+	}
 
 }
